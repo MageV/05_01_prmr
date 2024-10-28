@@ -11,6 +11,13 @@ static void fn(struct mg_connection *c, int ev, void *ev_data, void *fn_data) {
 
   if (mg_http_match_uri(hm, "/api")) {
     mg_http_reply(c, 200, "Content-Type: application/json\r\n", "{\"status\": \"ok\"}");
+  if (mg_http_match_uri(hm, "/static/#")) {
+    struct mg_http_serve_opts opts;
+    memset(&opts, 0, sizeof(opts));
+
+    opts.root_dir = ".";
+
+    mg_http_serve_dir(c, hm, &opts);
     return;
   }
 
